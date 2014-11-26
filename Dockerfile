@@ -33,20 +33,20 @@ RUN add-apt-repository -y ppa:nginx/stable
 run apt-get install -y sqlite3
 
 # install our code
-add . /home/docker/code/
+add . /var/www/vhosts/sennox.hellbit.de/code/
 
 # setup all the configfiles
 run echo "daemon off;" >> /etc/nginx/nginx.conf
 run rm /etc/nginx/sites-enabled/default
-run ln -s /home/docker/code/nginx-app.conf /etc/nginx/sites-enabled/
-run ln -s /home/docker/code/supervisor-app.conf /etc/supervisor/conf.d/
+run ln -s /var/www/vhosts/sennox.hellbit.de/code/nginx-app.conf /etc/nginx/sites-enabled/
+run ln -s /var/www/vhosts/sennox.hellbit.de/code/supervisor-app.conf /etc/supervisor/conf.d/
 
 # run pip install
-run pip install -r /home/docker/code/app/requirements.txt
+run pip install -r /var/www/vhosts/sennox.hellbit.de/code/app/requirements.txt
 
 # install django, normally you would remove this step because your project would already
 # be installed in the code/app/ directory
-run django-admin.py startproject website /home/docker/code/app/ 
+run django-admin.py startproject website /var/www/vhosts/sennox.hellbit.de/code/app/
 
 expose 80
 cmd ["supervisord", "-n"]
